@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               DateTimeFormField(
                 key: Key("DEC"),
-                initialValue: widget.initialDateTime,
+                initialValue: widget.initialDateTime.add(Duration(days: 1)),
                 label: "Date Time With Decoartion",
                 inputDecoration: InputDecoration(icon: Icon(Icons.calendar_today)),
                 validator: (DateTime dateTime) {
