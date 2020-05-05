@@ -45,7 +45,7 @@ class DateTimeFormField extends StatelessWidget {
 
   /// Create a DateTimeFormField.
   /// The [onlyDate] and [onlyTime] arguments can not be set to true at the same time.
-  DateTimeFormField({
+  DateTimeFormField({Key key,
     @required DateTime initialValue,
     @required String label,
     DateFormat formatter,
@@ -69,7 +69,8 @@ class DateTimeFormField extends StatelessWidget {
                     : DateFormat("EE, MMM d, yyyy h:mma"))),
         firstDate = firstDate ?? DateTime(1970),
         lastDate = lastDate ?? DateTime(2100),
-        inputDecoration = inputDecoration ?? InputDecoration(labelText: label);
+        inputDecoration = inputDecoration ?? InputDecoration(labelText: label),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

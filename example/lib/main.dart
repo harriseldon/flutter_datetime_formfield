@@ -60,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             children: <Widget>[
               DateTimeFormField(
+                key: Key("BASE"),
                 initialValue: widget.initialDateTime,
                 label: "Date Time",
                 validator: (DateTime dateTime) {
@@ -70,6 +71,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 onSaved: (DateTime dateTime) => _dateTime = dateTime,
               ),
+              DateTimeFormField(
+                key: Key("DEC"),
+                initialValue: widget.initialDateTime,
+                label: "Date Time With Decoartion",
+                inputDecoration: InputDecoration(icon: Icon(Icons.calendar_today)),
+                validator: (DateTime dateTime) {
+                  if (dateTime == null) {
+                    return "Date Time Required";
+                  }
+                  return null;
+                },
+                onSaved: (DateTime dateTime) => _dateTime = dateTime,
+              ),              
               Spacer(),
               Padding(
                 padding: const EdgeInsets.all(16.0),
