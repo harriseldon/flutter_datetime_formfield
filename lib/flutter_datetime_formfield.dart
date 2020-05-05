@@ -9,27 +9,39 @@ import 'dart:io' show Platform;
 class DateTimeFormField extends StatelessWidget {
   /// The initial date time, default value is 'DateTime.now()'.
   final DateTime initialValue;
+
   /// Save value function of form field.
   final FormFieldSetter<DateTime> onSaved;
+
   /// Validate function of form field.
   final FormFieldValidator<DateTime> validator;
+
   /// Whether validate every time, default value is false.
   final bool autovalidate;
   final bool enabled;
+
   /// The label of form field, default value is 'Date Time'.
   final String label;
+
   /// The format of displaying date time in form field, default value is 'DateFormat("EE, MMM d, yyyy h:mma")' in date and time mode,
   /// 'DateFormat("EEE, MMM d, yyyy")' in date only mode,
   /// 'DateFormat("h:mm a") in time only mode.
   final DateFormat formatter;
+
   /// Only show and edit date, default value is false.
   final bool onlyDate;
+
   /// Only show and edit time, default value is false. [onlyDate] and [onlyTime] cannot be set to true at the same time.
   final bool onlyTime;
+
   /// The first date time of picking, default value is 'DateTime(1970)'.
   final DateTime firstDate;
+
   /// The last date time of picking, default value is 'DateTime(2100)'.
   final DateTime lastDate;
+
+  /// Use a custom InputDecoration to allow features like a leading icon
+  final InputDecoration inputDecoration;
 
   /// Create a DateTimeFormField.
   /// The [onlyDate] and [onlyTime] arguments can not be set to true at the same time.
@@ -45,6 +57,7 @@ class DateTimeFormField extends StatelessWidget {
     this.onlyTime: false,
     DateTime firstDate,
     DateTime lastDate,
+    InputDecoration inputDecoration,
   })  : assert(!onlyDate || !onlyTime),
         initialValue = initialValue ?? DateTime.now(),
         label = label ?? "Date Time",
@@ -55,7 +68,8 @@ class DateTimeFormField extends StatelessWidget {
                     ? DateFormat("h:mm a")
                     : DateFormat("EE, MMM d, yyyy h:mma"))),
         firstDate = firstDate ?? DateTime(1970),
-        lastDate = lastDate ?? DateTime(2100);
+        lastDate = lastDate ?? DateTime(2100),
+        inputDecoration = inputDecoration ?? InputDecoration(labelText: label);
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +82,7 @@ class DateTimeFormField extends StatelessWidget {
       builder: (FormFieldState state) {
         return InkWell(
           child: InputDecorator(
-            decoration: InputDecoration(
-              labelText: label,
-              errorText: state.errorText,
-            ),
+            decoration: inputDecoration.copyWith(errorText: state.errorText, labelText: label),
             child: Text(formatter.format(state.value)),
           ),
           onTap: () async {
@@ -96,7 +107,8 @@ class DateTimeFormField extends StatelessWidget {
                       height: MediaQuery.of(context).size.height / 4,
                       child: CupertinoDatePicker(
                         mode: CupertinoDatePickerMode.date,
-                        onDateTimeChanged:(DateTime dateTime) => state.didChange(dateTime),
+                        onDateTimeChanged: (DateTime dateTime) =>
+                            state.didChange(dateTime),
                         initialDateTime: state.value,
                         minimumYear: firstDate.year,
                         maximumYear: lastDate.year,
@@ -128,7 +140,8 @@ class DateTimeFormField extends StatelessWidget {
                       height: MediaQuery.of(context).size.height / 4,
                       child: CupertinoDatePicker(
                         mode: CupertinoDatePickerMode.time,
-                        onDateTimeChanged:(DateTime dateTime) => state.didChange(dateTime),
+                        onDateTimeChanged: (DateTime dateTime) =>
+                            state.didChange(dateTime),
                         initialDateTime: state.value,
                         use24hFormat: false,
                         minuteInterval: 1,
@@ -168,7 +181,8 @@ class DateTimeFormField extends StatelessWidget {
                       height: MediaQuery.of(context).size.height / 4,
                       child: CupertinoDatePicker(
                         mode: CupertinoDatePickerMode.dateAndTime,
-                        onDateTimeChanged:(DateTime dateTime) => state.didChange(dateTime),
+                        onDateTimeChanged: (DateTime dateTime) =>
+                            state.didChange(dateTime),
                         initialDateTime: state.value,
                         use24hFormat: false,
                         minuteInterval: 1,
